@@ -27,7 +27,20 @@ class HomeController extends Controller
 
     public function index()
     {
-        $matka_games = GameMaster::where('category', 'matka')->orderBy('open_time', 'ASC')->get();
+        // $matka_games = GameMaster::where('category', 'matka')->orderBy('open_time', 'ASC')->get();
+
+        $user = User::find(Auth::id());
+        $creator = User::find($user->created_by);
+        $matka_games = [];
+        if($creator->hasRole('PARTNER'))
+        {
+            $admin_ids = User::role('ADMIN')->pluck('id')->toArray();
+            $matka_games = GameMaster::where('category', 'matka')->whereIn('created_by', array_merge([$creator->id], $admin_ids))->orderBy('open_time', 'ASC')->get();
+        }
+        elseif($creator->hasRole('ADMIN'))
+        {
+            $matka_games = GameMaster::where('category', 'matka')->where('created_by', $creator->id)->orderBy('open_time', 'ASC')->get();
+        }
         $wallet = number_format($this->wallet, 2);
         return view('customer.home', compact('matka_games', 'wallet'));
     }
