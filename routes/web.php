@@ -22,6 +22,7 @@ use App\Http\Controllers\SattaHomeController;
 use App\Http\Controllers\BidHistoryController;
 use App\Http\Controllers\FundsController;
 use App\Http\Controllers\GetSupportController;
+use App\Http\Controllers\GameChartController;
 
 use Illuminate\Support\Facades\Route;
 // use Spatie\Permission\Middlewares\RoleMiddleware;
@@ -104,6 +105,13 @@ Route::middleware(['auth', 'verified', 'role:CUSTOMER'])->group(function () {
     Route::post('/satta-get-game-result', [BidHistoryController::class, 'get_satta_game_result'])->name('get.satta.game.result');
 
     Route::resource('get-support', GetSupportController::class);
+    Route::get('/game-chart', [GameChartController::class, 'index'])->name('game-chart');
+    Route::get('matka_panel_chart', [GameChartController::class, 'matka_panel_chart'])->name('matka_panel_chart');
+    Route::get('/getMatkaChart_list', [GameChartController::class, 'getMatkaChart_list'])->name('getMatkaChart_list');
+    Route::get('matka_panel_jodi_chart', [GameChartController::class, 'matka_panel_jodi_chart'])->name('matka_panel_jodi_chart');
+    Route::get('/getMatkaJodiChart_list', [GameChartController::class, 'getMatkaJodiChart_list'])->name('getMatkaJodiChart_list');
+    Route::get('satta_result_chart', [GameChartController::class, 'satta_result_chart'])->name('satta_result_chart');
+    Route::get('/getSattaResultChart_list', [GameChartController::class, 'getSattaResultChart_list'])->name('getSattaResultChart_list');
 });
 
 Route::middleware(['auth', 'verified', 'role:ADMIN|PARTNER'])->group(function () {
