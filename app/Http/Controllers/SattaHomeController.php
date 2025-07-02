@@ -27,7 +27,21 @@ class SattaHomeController extends Controller
 
     public function index()
     {
-        $satta_games = GameMaster::where('category', 'satta')->orderBy('open_time', 'ASC')->get();
+        // $satta_games = GameMaster::where('category', 'satta')->orderBy('open_time', 'ASC')->get();
+
+        $user = User::find(Auth::id());
+        $creator = User::find($user->created_by);
+        $satta_games = [];
+        if($creator->hasRole('PARTNER'))
+        {
+            $admin_ids = User::role('ADMIN')->pluck('id')->toArray();
+            $satta_games = GameMaster::where('category', 'satta')->whereIn('created_by', array_merge([$creator->id], $admin_ids))->orderBy('open_time', 'ASC')->get();
+        }
+        elseif($creator->hasRole('ADMIN'))
+        {
+            $satta_games = GameMaster::where('category', 'satta')->where('created_by', $creator->id)->orderBy('open_time', 'ASC')->get();
+        }
+
         $wallet = number_format($this->wallet, 2);
         return view('customer.satta_home', compact('satta_games', 'wallet'));
     }
