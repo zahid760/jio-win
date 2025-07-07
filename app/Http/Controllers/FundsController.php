@@ -11,6 +11,7 @@ use App\Models\GameRate;
 use App\Models\WithdrawRequests;
 use App\Models\User;
 use App\Models\Support;
+use App\Models\Notification;
 use Auth;
 
 class FundsController extends Controller
@@ -73,10 +74,18 @@ class FundsController extends Controller
             }
             
             $request->merge(['created_by' => Auth::id()]);
-            $data = $request->all();   
+            $notificationData = [
+                'title'         => 'Payment Request',
+                'description'   => 'Payment request created by '.Auth::user()->name,
+                'user_id'       => Auth::id(),
+                'winer_user_id' => Auth::id(),
+                'event_type'    => '1', // 1 for user Payment Request notification
+            ];
+            $data = $request->all();
+            $notification = Notification::create($notificationData);
             $payment_request = PaymentRequest::create($data);
-
-            if($payment_request){
+            
+            if($payment_request && $notification){
                 return response()->json(['status'=>'success',  'message' => 'Thank you for deposit your amount will credit within 45 minutes.'], 200);
             }
             
@@ -161,10 +170,18 @@ class FundsController extends Controller
             ]);
 
             $request->merge(['created_by' => Auth::id()]);
-            $data = $request->all();   
+            $notificationData = [
+                'title'         => 'Payment withdraw Request',
+                'description'   => 'Payment request created by '.Auth::user()->name,
+                'user_id'       => Auth::id(),
+                'winer_user_id' => Auth::id(),
+                'event_type'    => '2', // 1 for user Payment withdraw Request notification
+            ];
+            $data = $request->all();
+            $notification = Notification::create($notificationData);
             $withdraw_request = WithdrawRequests::create($data);
 
-            if($withdraw_request){
+            if($withdraw_request && $notification){
                 $user = User::find(Auth::id());
                 $wining = ($user->winning_wallet - $request->amount);
                 $wallet = ($user->wallet - $request->amount);
