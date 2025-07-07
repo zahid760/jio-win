@@ -44,6 +44,16 @@
             </div>
         </div>
     </section>
+
+    <section class="pb-5">
+        <div class="container-fluid">
+            <div class="ratio ratio-16x9" style="width: 100%; height: 90%; border: 0;">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+    
 @section('pagescript')
 <script>
     $('#payment-form').on('submit',function(event){

@@ -23,6 +23,8 @@ use App\Http\Controllers\BidHistoryController;
 use App\Http\Controllers\FundsController;
 use App\Http\Controllers\GetSupportController;
 use App\Http\Controllers\GameChartController;
+use App\Http\Controllers\FrontNotificationController;
+use App\Http\Controllers\ShareController;
 
 use Illuminate\Support\Facades\Route;
 // use Spatie\Permission\Middlewares\RoleMiddleware;
@@ -112,6 +114,8 @@ Route::middleware(['auth', 'verified', 'role:CUSTOMER'])->group(function () {
     Route::get('/getMatkaJodiChart_list', [GameChartController::class, 'getMatkaJodiChart_list'])->name('getMatkaJodiChart_list');
     Route::get('satta_result_chart', [GameChartController::class, 'satta_result_chart'])->name('satta_result_chart');
     Route::get('/getSattaResultChart_list', [GameChartController::class, 'getSattaResultChart_list'])->name('getSattaResultChart_list');
+    Route::get('/front_notification', [FrontNotificationController::class, 'index'])->name('notification');
+    Route::get('/share', [ShareController::class, 'index'])->name('share');
 });
 
 Route::middleware(['auth', 'verified', 'role:ADMIN|PARTNER'])->group(function () {
