@@ -75,4 +75,12 @@ class FrontNotificationController extends Controller
     {
         //
     }
+
+    public function show_notification($id)
+    {
+        $Getnotification = Notification::find($id);
+        // Mark the notification as read
+        return view('customer.show_notification', compact('Getnotification'));
+        
+    }
 }
