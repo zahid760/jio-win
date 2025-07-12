@@ -4,28 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Notification;
 use Auth;
 
-class FrontNotificationController extends Controller
+class ShareController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // where('event_type', '0')->where('user_id', Auth::id())->where('winer_user_id', Auth::id())->
-        $notificcations = Notification::where(function($query) {
-            $userId = Auth::id();
-            $query->where('user_id', $userId)
-            ->orWhere('winer_user_id', $userId)
-            ->orWhereNull('user_id')
-            ->orWhereNull('winer_user_id');
-        })
-        ->orderBy('id', 'DESC')
-        ->get();
-        // dd($notificcations);
-        return view('customer.notification', compact('notificcations'));
+        $referalCode = Auth::user()->referral_code ?? '';
+        return view('customer.share', compact('referalCode'));
     }
 
     /**

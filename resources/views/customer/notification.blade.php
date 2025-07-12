@@ -1,4 +1,4 @@
-@section('title', 'Funds')
+@section('title', 'Notification')
 @include('customer.includes.header')
     <header class="page-header bg-danger rounded-bottom">
         <div class="container-fluid">
@@ -26,7 +26,7 @@
                 </div> --}}
                 
                 @foreach($notificcations as $notificcation)
-                    <a href="#">
+                    <a href="{{ route('show-notification', $notificcation->id) }}" class="text-decoration-none text-dark">
                         <div class="card mb-1 shadow-lg">
                             <div class="card-body p-2">
                                 <div class="d-flex align-items-center justify-content-between">

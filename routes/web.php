@@ -115,6 +115,7 @@ Route::middleware(['auth', 'verified', 'role:CUSTOMER'])->group(function () {
     Route::get('satta_result_chart', [GameChartController::class, 'satta_result_chart'])->name('satta_result_chart');
     Route::get('/getSattaResultChart_list', [GameChartController::class, 'getSattaResultChart_list'])->name('getSattaResultChart_list');
     Route::get('/front_notification', [FrontNotificationController::class, 'index'])->name('notification');
+    Route::get('/show-notification/{id}', [FrontNotificationController::class, 'show_notification'])->name('show-notification');
     Route::get('/share', [ShareController::class, 'index'])->name('share');
 });
 

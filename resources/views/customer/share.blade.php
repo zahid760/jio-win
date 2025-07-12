@@ -20,7 +20,7 @@
             <div class="card">
                 <div class="card-body p-1">
                     <div class="input-group mb-1">
-                        <input type="text" class="form-control" id="shareId" value="{{ route('share') }}" aria-label="shareId" aria-describedby="shareId" readonly>
+                        <input type="text" class="form-control" id="shareId" value="{{ route('login') }}/{{ $referalCode }}" aria-label="shareId" aria-describedby="shareId" readonly>
                         <button class="btn btn-secondary " type="button" id="shareId" data-clipboard-action="copy" data-clipboard-target="#shareId"><i class="far fa-copy"></i></button>
                     </div>
                 </div>
@@ -38,3 +38,7 @@
     </section>
 
 @include('customer.includes.footer')
+
+@section('pagescript')
+<script src="{{ secure_asset('assets/libs/clipboard/clipboard.min.js') }}"></script>
+<script src="{{ secure_asset('assets/js/pages/clipboard.init.js') }}"></script>
