@@ -57,4 +57,40 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    
+    // change password
+    public function changePassword(Request $request)
+    {
+        return view('customer.change_password');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        try {
+            $request->validate([
+            'current_password' => ['required'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+
+            $user = Auth::user();
+
+            // Check if current password matches
+            if (!\Hash::check($request->current_password, $user->password)) {
+                return response()->json(['status'=>'false',  'message' => 'Current password is incorrect.'], 400);
+            }
+            
+            // Check if new password and confirmation match
+            if ($request->new_password !== $request->new_password_confirmation) {
+                return response()->json(['status'=>'false',  'message' => 'New password and confirmation do not match.'], 400);
+            }
+
+            // Update password
+            $user->password = bcrypt($request->new_password);
+            $user->save();
+
+            return response()->json(['status'=>'success', 'message' => 'Password updated successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status'=>'false', 'message' => $e->getMessage()], 500);
+        }
+    }
 }

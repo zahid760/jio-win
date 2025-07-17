@@ -56,7 +56,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('notification') }}">
                     <span class="bg-danger thumb-md rounded-circle me-1"><i class="iconoir-bell-notification fs-18 text-white"></i></span>
                     Notification
                 </a>
@@ -86,7 +86,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('change-password') }}">
                     <span class="bg-danger thumb-md rounded-circle me-1"><i class="iconoir-key fs-18 text-white"></i></span>
                     Change Password
                 </a>

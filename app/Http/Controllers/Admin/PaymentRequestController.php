@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PaymentRequest;
 use App\Models\User;
 use App\Models\WithdrawRequests;
+use App\Models\Bonus;
 use Auth;
 
 class PaymentRequestController extends Controller
@@ -33,10 +34,25 @@ class PaymentRequestController extends Controller
             if($request->status == 1){
                 $amount = $payment_request->amount;
                 $userid = $payment_request->created_by;
+                $checkPaymentRequests = PaymentRequest::where('created_by', $userid)->count();
                 $user = User::find($userid);
+                $bonus = Bonus::where('created_by', $user->created_by)->first();
+                $bonus_amt = 0;
+                if($checkPaymentRequests == 1)
+                {
+                    $bonus_amt = $bonus->amount;
+                }
+                $percent = $bonus->percent;
+                $total_percent = ($amount * $percent) / 100;
+                $referUser = User::find($user->created_by);
+                $referUser_bonus_amt = ($referUser->bonus_wallet + $total_percent);
+
                 $deposite = ($user->deposite_wallet + $amount);
                 $wallet = ($user->wallet + $amount);
-                $user->update(['wallet'=>$wallet, 'deposite_wallet'=>$deposite, 'updated_by'=>Auth::id()]);
+                $bonus_amt = ($user->bonus_wallet + $bonus_amt);
+
+                $referUser->update(['bonus_wallet'=> $referUser_bonus_amt, 'updated_by'=>Auth::id()]);
+                $user->update(['wallet'=>$wallet, 'deposite_wallet'=>$deposite, 'bonus_wallet'=> $bonus_amt, 'updated_by'=>Auth::id()]);
             }
             
             $data = [

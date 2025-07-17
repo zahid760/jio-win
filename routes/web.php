@@ -117,6 +117,8 @@ Route::middleware(['auth', 'verified', 'role:CUSTOMER'])->group(function () {
     Route::get('/front_notification', [FrontNotificationController::class, 'index'])->name('notification');
     Route::get('/show-notification/{id}', [FrontNotificationController::class, 'show_notification'])->name('show-notification');
     Route::get('/share', [ShareController::class, 'index'])->name('share');
+    Route::get('/change-password', [ProfileController::class, 'changePassword'])->name('change-password');
+    Route::post('/update-password', [ProfileController::class, 'updatePassword'])->name('update-password');
 });
 
 Route::middleware(['auth', 'verified', 'role:ADMIN|PARTNER'])->group(function () {
