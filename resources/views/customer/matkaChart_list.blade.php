@@ -21,20 +21,20 @@
     });
 @endphp
 
-<table class="table table-bordered mt-3">
+<table class="table table-bordered mt-3" style="border: 1px dotted #000;">
     <thead>
-        <tr>
-            <th>Date</th>
-            <th colspan="3">Mon</th>
-            <th colspan="3">Tue</th>
-            <th colspan="3">Wed</th>
-            <th colspan="3">Thu</th>
-            <th colspan="3">Fri</th>
-            <th colspan="3">Sat</th>
-            <th colspan="3">Sun</th>
+        <tr class="bg-danger text-center">
+            <th style="color: aliceblue;">Date</th>
+            <th style="color: aliceblue;" colspan="3">Mon</th>
+            <th style="color: aliceblue;" colspan="3">Tue</th>
+            <th style="color: aliceblue;" colspan="3">Wed</th>
+            <th style="color: aliceblue;" colspan="3">Thu</th>
+            <th style="color: aliceblue;" colspan="3">Fri</th>
+            <th style="color: aliceblue;" colspan="3">Sat</th>
+            <th style="color: aliceblue;" colspan="3">Sun</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style="background-color: #fc9;">
         @foreach($weeks as $week)
             @php
                 $weekStart = $week['start']->format('Y-m-d');
@@ -56,9 +56,9 @@
                         $data = $dayMap->get($day);
                     @endphp
                     @if($data)
-                        <td>{!! isset($data->open) ? nl2br(implode("\n", str_split($data->open))) : '***' !!}</td>
-                        <td>{{ $data->jodi ?? '**' }}</td>
-                        <td>{!! isset($data->close) ? nl2br(implode("\n", str_split($data->close))) : '***' !!}</td>
+                        <td class="">{!! isset($data->open) ? nl2br(implode("\n", str_split($data->open))) : '***' !!}</td>
+                        <td class="">{{ $data->jodi ?? '**' }}</td>
+                        <td class="">{!! isset($data->close) ? nl2br(implode("\n", str_split($data->close))) : '***' !!}</td>
                     @else
                         <td class="vertical-text">***</td><td>**</td><td class="vertical-text">***</td>
                     @endif

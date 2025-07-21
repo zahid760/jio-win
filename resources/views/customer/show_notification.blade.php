@@ -41,6 +41,8 @@
                                     <span class="badge bg-success fs-14">Matka Result</span>
                                 @elseif($Getnotification->event_type == 4)
                                     <span class="badge bg-success fs-14">Satta Result</span>
+                                @elseif($Getnotification->event_type == 5)
+                                    <span class="badge bg-success fs-14">Game Result Out</span>
                                 @endif
                             </div>
                             <span class="badge bg-success p-2">

@@ -179,6 +179,13 @@ class GameResultController extends Controller
                     }
                 }
 
+                $notificationData = [
+                    'title'         => 'matka game result out',
+                    'description'   => 'Matka game Game result updated on date: ' . $result_date->format('d-m-Y'),
+                    'event_type'    => '5', // 5 for game result update notification
+                ];
+                $notification = Notification::create($notificationData);
+
                 $request->merge(['created_by' => Auth::id()]);
                 $data = $request->all();
                 $game_result = GameResult::create($data);
@@ -364,7 +371,13 @@ class GameResultController extends Controller
                     }
                 }
                 // dd($game_mode);
-
+                $notificationData = [
+                    'title'         => 'matka game result out',
+                    'description'   => 'Matka game Game result updated on date: ' . $result_date->format('d-m-Y'),
+                    'event_type'    => '5', // 5 for game result update notification
+                ];
+                $notification = Notification::create($notificationData);
+                
                 $request->merge(['updated_by' => Auth::id()]);
                 $data = $request->all();
                 $game_result = GameResult::find($id);
@@ -576,6 +589,13 @@ class GameResultController extends Controller
                     }
                 }
             }
+
+            $notificationData = [
+                'title'         => 'Satta game result out',
+                'description'   => 'Satta game Game result updated on date: ' . $result_date->format('d-m-Y'),
+                'event_type'    => '5', // 5 for game result update notification
+            ];
+            $notification = Notification::create($notificationData);
 
             $request->merge(['created_by' => Auth::id()]);
             $data = $request->all();
