@@ -116,6 +116,8 @@ Route::middleware(['auth', 'verified', 'role:CUSTOMER'])->group(function () {
     Route::get('/getSattaResultChart_list', [GameChartController::class, 'getSattaResultChart_list'])->name('getSattaResultChart_list');
     Route::get('/front_notification', [FrontNotificationController::class, 'index'])->name('notification');
     Route::get('/show-notification/{id}', [FrontNotificationController::class, 'show_notification'])->name('show-notification');
+    Route::get('/settings', [FrontNotificationController::class, 'notification_settings'])->name('settings');
+    Route::post('/update_settings', [FrontNotificationController::class, 'store'])->name('update_settings');
     Route::get('/share', [ShareController::class, 'index'])->name('share');
     Route::get('/change-password', [ProfileController::class, 'changePassword'])->name('change-password');
     Route::post('/update-password', [ProfileController::class, 'updatePassword'])->name('update-password');

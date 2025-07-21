@@ -74,7 +74,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('settings') }}">
                     <span class="bg-danger thumb-md rounded-circle me-1"><i class="iconoir-settings fs-18 text-white"></i></span>
                     Settings
                 </a>

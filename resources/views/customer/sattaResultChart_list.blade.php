@@ -21,20 +21,20 @@
     });
 @endphp
 
-<table class="table table-bordered mt-3 text-center">
-    <thead class="table-light">
-        <tr>
-            <th>Date</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
-            <th>Sun</th>
+<table class="table table-bordered mt-3 text-center" style="border: 1px dotted #000;">
+    <thead>
+        <tr class="bg-danger text-center">
+            <th style="color: aliceblue;">Date</th>
+            <th style="color: aliceblue;">Mon</th>
+            <th style="color: aliceblue;">Tue</th>
+            <th style="color: aliceblue;">Wed</th>
+            <th style="color: aliceblue;">Thu</th>
+            <th style="color: aliceblue;">Fri</th>
+            <th style="color: aliceblue;">Sat</th>
+            <th style="color: aliceblue;">Sun</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style="background-color: #fc9;">
         @foreach($weeks as $week)
             @php
                 $weekStart = $week['start']->format('Y-m-d');
@@ -56,9 +56,9 @@
                         $data = $dayMap->get($day);
                     @endphp
                     @if($data)
-                        <td>{{ $data->open ?? '**' }}</td>
+                        <td class="" style="border: 1px dotted #000;">{{ $data->open ?? '**' }}</td>
                     @else
-                        <td>**</td>
+                        <td style="border: 1px dotted #000;">**</td>
                     @endif
                 @endforeach
             </tr>
