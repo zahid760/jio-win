@@ -22,7 +22,7 @@
             </div>
 
             <div class="col text-center">
-                <a href="{{ route('login') }}/{{ $referalCode }}" class="btn p-0">
+                <a href="{{ route('share') }}" class="btn p-0">
                     <i class="iconoir-share-android fs-18"></i><br>
                     <p class="mb-0 fs-12">Share</p>
                 </a>
