@@ -42,8 +42,7 @@ class HomeController extends Controller
             $matka_games = GameMaster::where('category', 'matka')->where('created_by', $creator->id)->orderBy('open_time', 'ASC')->get();
         }
         $wallet = number_format($this->wallet, 2);
-        $referalCode = Auth::user()->referral_code ?? '';
-        return view('customer.home', compact('matka_games', 'wallet', 'referalCode'));
+        return view('customer.home', compact('matka_games', 'wallet'));
     }
 
     public function game_mode($id)

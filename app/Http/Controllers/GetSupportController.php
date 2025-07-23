@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Support;
+use App\Models\GlobalSupport;
 
 class GetSupportController extends Controller
 {
     public function index()
     {
-        $data = Support::get()->first();
+        $data = GlobalSupport::get()->first();
 
         return view('customer.support', compact('data'));
     }

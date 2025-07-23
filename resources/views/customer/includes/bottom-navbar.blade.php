@@ -29,7 +29,7 @@
             </div>
 
             <div class="col text-center">
-                <a href="https://wa.me/918957305924" target="_blank" class="btn p-0">
+                <a href="{{ route('get-support') }}" target="_blank" class="btn p-0">
                     <i class="iconoir-chat-bubble fs-18"></i><br>
                     <p class="mb-0 fs-12">Support</p>
                 </a>
