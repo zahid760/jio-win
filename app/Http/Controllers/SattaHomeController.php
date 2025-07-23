@@ -43,7 +43,8 @@ class SattaHomeController extends Controller
         }
 
         $wallet = number_format($this->wallet, 2);
-        return view('customer.satta_home', compact('satta_games', 'wallet'));
+        $referalCode = Auth::user()->referral_code ?? '';
+        return view('customer.satta_home', compact('satta_games', 'wallet', 'referalCode'));
     }
 
     public function game_mode($id)

@@ -12,6 +12,7 @@ use App\Models\WithdrawRequests;
 use App\Models\User;
 use App\Models\Support;
 use App\Models\Notification;
+use App\Models\GlobalSupport;
 use Auth;
 
 class FundsController extends Controller
@@ -48,7 +49,17 @@ class FundsController extends Controller
         $created_by  = Auth::user()->created_by;
         $account_details = AccountDetail::where('created_by', $created_by)->get()->first();
         $wallet = number_format($this->wallet, 2);
-        return view('customer.add_cash', compact('account_details', 'wallet'));
+        $creator = User::find($created_by);
+        $support = [];
+        if($creator->hasRole('PARTNER'))
+        {
+            $support = Support::where('created_by', $created_by);
+        }
+        elseif($creator->hasRole('ADMIN'))
+        {
+            $support = GlobalSupport::get();
+        }
+        return view('customer.add_cash', compact('account_details', 'wallet', 'support'));
     }
 
     public function payment_request_store(Request $request)
