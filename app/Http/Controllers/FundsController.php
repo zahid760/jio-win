@@ -48,7 +48,6 @@ class FundsController extends Controller
         $created_by  = Auth::user()->created_by;
         $account_details = AccountDetail::where('created_by', $created_by)->get()->first();
         $wallet = number_format($this->wallet, 2);
-        $creator = User::find($created_by);
         $support = Support::where('created_by', $created_by);
         return view('customer.add_cash', compact('account_details', 'wallet', 'support'));
     }
