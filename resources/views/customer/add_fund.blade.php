@@ -65,10 +65,10 @@
 
                     <p class="text-center mb-1 mt-2">For Fund Query's Please Call Or whatsapp</p>
                     <div class="d-flex items-center" style="justify-content: space-around;">
-                        <a href="https://wa.me/918957305924" class="btn btn-light rounded-pill shadow-lg">
+                        <a href="https://wa.me/91{{ $support->whatsapp_no }}" class="btn btn-light rounded-pill shadow-lg">
                             <i class="fa-brands fa-whatsapp"></i> whatsapp
                         </a>
-                        <a href="tel:8957305924" class="btn btn-light rounded-pill shadow-lg">
+                        <a href="tel:{{ $support->call_no }}" class="btn btn-light rounded-pill shadow-lg">
                             <i class="iconoir-phone"></i> Call
                         </a>
                     </div>
