@@ -19,8 +19,8 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body p-1">
-                    <div class="input-group mb-1">
-                        <input type="text" class="form-control" id="shareId" value="{{ route('login') }}/{{ $referalCode }}" aria-label="shareId" aria-describedby="shareId" readonly>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="shareId" value="{{ route('register') }}?ref={{ $referalCode }}" aria-label="shareId" aria-describedby="shareId" readonly>
                         <button class="btn btn-secondary " type="button" id="shareId" data-clipboard-action="copy" data-clipboard-target="#shareId"><i class="far fa-copy"></i></button>
                     </div>
                 </div>

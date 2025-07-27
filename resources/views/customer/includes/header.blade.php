@@ -20,6 +20,7 @@
     <link href="{{ secure_asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ secure_asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ secure_asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script>
         var baseUrl = "{{ config('app.url') }}";
     </script>

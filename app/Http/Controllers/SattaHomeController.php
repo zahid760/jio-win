@@ -9,6 +9,7 @@ use App\Models\GameMode;
 use App\Models\Bids;
 use App\Models\BidChild;
 use App\Models\User;
+use App\Models\Support;
 use Auth;
 
 class SattaHomeController extends Controller
@@ -43,7 +44,8 @@ class SattaHomeController extends Controller
         }
 
         $wallet = number_format($this->wallet, 2);
-        return view('customer.satta_home', compact('satta_games', 'wallet'));
+        $support = Support::where('created_by', Auth::user()->created_by)->get()->first();
+        return view('customer.satta_home', compact('satta_games', 'wallet', 'support'));
     }
 
     public function game_mode($id)

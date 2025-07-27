@@ -129,7 +129,7 @@
 
                     <div class="row g-2 mt-2">
                         <div class="col-12">
-                            <a href="https://wa.me/918957305924" class="btn btn-success w-100"><i class="fa-brands fa-whatsapp fs-14 me-1"></i> For Payment Related Issue Click Here</a>
+                            <a href="https://wa.me/91{{ $support->whatsapp_no }}" class="btn btn-success w-100"><i class="fa-brands fa-whatsapp fs-14 me-1"></i> For Payment Related Issue Click Here</a>
                             <p class="mt-2 mb-0 text-danger fw-semibold">Note:</p>
                             <ul class="fs-9 ps-2">
                                 <li>जमा करने के बाद, स्लिप अपलोड करें और अपनी जमा राशि लिखें।</li>
@@ -199,36 +199,25 @@
                             location.reload();
                         }
                     });
-                    // toastr.success(response.message);
-                    // setTimeout(function(){
-                        // window.open(baseUrl+"/matka_game", '_self');
-                    // }, 1000);
+                } else {
+                    toastr.error(response.message);
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // $('#loader').hide();
+            error: function(xhr) {
                 $('.btnsave').prop('disabled', false);
 
-                console.error('AJAX error:', textStatus, 'Error thrown:', errorThrown);
-                console.error('Server response:', jqXHR.responseText);
-        
-                // Optionally parse and display the error messages sent by the server
-                if(jqXHR.responseText) {
-                    try {
-                        var response = JSON.parse(jqXHR.responseText);
-                        if(response.errors) {
-                            console.error('Validation errors:', response.errors); 
-                            $.each(response.errors, function(key, value) {
-                                $.each(value, function(index, item) {
-                                    toastr.error(item);
-                                });
-                            });                                
-                        } else {
-                            console.error('Error message:', response.message);
-                        }
-                    } catch(e) {
-                        console.error('Error parsing JSON response');
-                    }
+                if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
+                    let errors = xhr.responseJSON.errors;
+
+                    // Loop through each field's error array and show via toastr
+                    Object.values(errors).forEach(fieldErrors => {
+                        fieldErrors.forEach(message => {
+                            toastr.error(message);
+                        });
+                    });
+                } else {
+                    // Generic error message
+                    toastr.error(xhr.responseJSON?.message || 'An unexpected error occurred.');
                 }
             }
         });
