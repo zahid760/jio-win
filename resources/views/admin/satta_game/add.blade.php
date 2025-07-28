@@ -35,9 +35,13 @@
                             <div class="col-md-4">
                                 <label>Priority <span class="text-danger">*</span></label>
                                 <select name="priority" class="form-select" required>
-                                    <option value="">-- Select --</option>
-                                    <option value="primary">Primary</option>
-                                    <option value="secondary">Secondary</option>
+                                    @if(Auth::user()->hasRole('PARTNER'))
+                                        <option value="secondary">Secondary</option>
+                                    @elseif(Auth::user()->hasRole('ADMIN'))
+                                        <option value="">-- Select --</option>
+                                        <option value="primary">Primary</option>
+                                        <option value="secondary">Secondary</option>
+                                    @endif
                                 </select>
                             </div>
 
