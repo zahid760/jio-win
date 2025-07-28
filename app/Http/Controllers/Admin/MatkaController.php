@@ -10,6 +10,7 @@ use App\Models\GameResult;
 use App\Models\GameMode;
 use App\Models\Bids;
 use App\Models\BidChild;
+use App\Models\User;
 use Auth;
 
 class MatkaController extends Controller
@@ -19,7 +20,16 @@ class MatkaController extends Controller
      */
     public function index()
     {
-        $data = GameMaster::where('category', 'matka')->orderBy('open_time', 'ASC')->get();
+        $data = [];
+        if(Auth::user()->hasRole('PARTNER'))
+        {
+            $admin_ids = User::role('ADMIN')->pluck('id')->toArray();
+            $data = GameMaster::where('category', 'matka')->whereIn('created_by', array_merge([Auth::id()], $admin_ids))->orderBy('open_time', 'ASC')->get();
+        }
+        elseif(Auth::user()->hasRole('ADMIN'))
+        {
+            $data = GameMaster::where('category', 'matka')->orderBy('open_time', 'ASC')->get();
+        }
         return view('admin.matka_game.list', compact('data'));
     }
 
