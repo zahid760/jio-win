@@ -13,11 +13,9 @@
                     <a href="{{ route('add.fund') }}" class="btn d-flex align-items-center px-0" type="button">
                         <i class="iconoir-wallet fs-20"></i> <i class="fas fa-indian-rupee-sign mx-1"></i> {{ $wallet }}
                     </a>
-                    <button class="btn d-flex align-items-center px-0 ms-1" type="button">
-                        <a href="{{ route('notification') }}" class="text-dark">
-                            <i class="iconoir-bell fs-20"></i>
-                        </a>
-                    </button>
+                    <a href="{{ route('notification') }}" class="btn d-flex align-items-center px-0 ms-1" type="button">
+                        <i class="iconoir-bell fs-20"></i>
+                    </a>
                 </div>
             </div>
 
@@ -45,14 +43,14 @@
 
             <div class="row">
                 <div class="col-6">
-                    <a href="tel:918957305924" class="btn d-flex align-items-center justify-content-center">
-                        <i class="iconoir-phone fs-14 me-1"></i> 8957305924
+                    <a href="tel:{{ $support->call_no }}" class="btn d-flex align-items-center justify-content-center">
+                        <i class="iconoir-phone fs-14 me-1"></i> {{ $support->call_no }}
                     </a>
                 </div>
 
                 <div class="col-6">
-                    <a href="https://wa.me/918957305924" class="btn d-flex align-items-center justify-content-center">
-                        <i class="fa-brands fa-whatsapp fs-14 me-1 text-success"></i> 8957305924
+                    <a href="https://wa.me/91{{ $support->whatsapp_no }}" class="btn d-flex align-items-center justify-content-center">
+                        <i class="fa-brands fa-whatsapp fs-14 me-1 text-success"></i> {{ $support->whatsapp_no }}
                     </a>
                 </div>
             </div>
@@ -177,15 +175,6 @@
                     @endif
                 @endif
             @endforeach
-        </div>
-    </section>
-
-    <section class="pb-5">
-        <div class="container-fluid">
-            <div class="ratio ratio-16x9" style="width: 100%; height: 90%; border: 0;">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video" allowfullscreen>
-                </iframe>
-            </div>
         </div>
     </section>
 

@@ -21,14 +21,14 @@ class FrontNotificationController extends Controller
         $Getnotification = collect(); // Start as empty Laravel collection
 
         // Add custom event_type = 5 notifications if matka or satta is enabled
-        if(!empty($checkSettings) && $checkSettings->matka_game == 1)
+        if(!$checkSettings || !empty($checkSettings) && $checkSettings->matka_game == 1)
         {
-            $customNotification = Notification::where('event_type', 5)->where('title', 'matka game result out')->get();
+            $customNotification = Notification::where('event_type', 5)->get();
             $Getnotification = $Getnotification->merge($customNotification); // merge safely with collection
         }
-        if(!empty($checkSettings) &&  $checkSettings->satta_game == 1)
+        if(!$checkSettings ||  !empty($checkSettings) &&  $checkSettings->satta_game == 1)
         {
-            $customNotification = Notification::where('event_type', 5)->where('title', 'Satta game result out')->get();
+            $customNotification = Notification::where('event_type', 6)->get();
             $Getnotification = $Getnotification->merge($customNotification);
         }
 

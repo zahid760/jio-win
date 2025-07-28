@@ -30,6 +30,8 @@
                                     <span class="badge rounded-pill bg-warning-subtle text-warning">Pending</span>
                                     @elseif($row->status === 1)
                                     <span class="badge rounded-pill bg-success-subtle text-success">Success</span>
+                                    @elseif($row->status === 3)
+                                    <span class="badge rounded-pill bg-success-subtle text-success">Success</span>
                                     @else
                                     <span class="badge rounded-pill bg-danger-subtle text-danger">Reject</span>
                                     @endif
@@ -53,7 +55,7 @@
                             </div>
                             <div class="col-6">
                                 <p class="mb-0 text-center fs-12">Deposite Mode</p>
-                                <p class="mb-0 text-center fs-11 fw-normal">UPI / Bank</p>
+                                <p class="mb-0 text-center fs-11 fw-normal">{{ $row->status === 3 ? 'Bonus' : 'UPI / Bank' }}</p>
                             </div>
                         </div>
                     </div>

@@ -11,6 +11,7 @@ use App\Models\GameMode;
 use App\Models\Winner;
 use App\Models\GameRate;
 use App\Models\User;
+use App\Models\GameMaster;
 use Carbon\Carbon;
 use Auth;
 use App\Models\Notification;
@@ -29,6 +30,7 @@ class GameResultController extends Controller
             ]);
             
             $id = $request->result_id;
+            $game = GameMaster::find($request->game_id);
             $result_date = Carbon::parse($request->result_date);
             $game_mode = GameMode::where('category', 'matka')->orderBy('ordering', 'ASC')->get();
             if(empty($id)){
@@ -37,8 +39,9 @@ class GameResultController extends Controller
                     foreach($bids as $bid){
                         foreach($bid->bidchild as $row){
                             if($mode->id == 1 && $row->game_number == $request->jodi){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -46,16 +49,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
-                                    'event_type'    => '3', // 3 for game result update notification
+                                    'event_type'    => '3',
+                                    'result_date' => $result_date,
+                                    'created_by' => Auth::id()
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
-                                    $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
+                                    $notification = Notification::create($notificationData);                                    
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -64,8 +68,9 @@ class GameResultController extends Controller
                                 }
                             }
                             elseif($mode->id == 3 && $row->game_number == $request->open){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -73,16 +78,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
-                                    'event_type'    => '3', // 3 for game result update notification
+                                    'event_type'    => '3',
+                                    'result_date' => $result_date,
+                                    'created_by' => Auth::id()
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
                                     $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -91,8 +97,9 @@ class GameResultController extends Controller
                                 }
                             }
                             elseif($mode->id == 4 && $row->game_number == $request->open){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -100,16 +107,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
-                                    'event_type'    => '3', // 3 for game result update notification
+                                    'event_type'    => '3',
+                                    'result_date' => $result_date,
+                                    'created_by' => Auth::id()
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
                                     $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -118,8 +126,9 @@ class GameResultController extends Controller
                                 }
                             }
                             elseif($mode->id == 5 && $row->game_number == $request->open){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -127,16 +136,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
-                                    'event_type'    => '3', // 3 for game result update notification
+                                    'event_type'    => '3',
+                                    'result_date' => $result_date,
+                                    'created_by' => Auth::id()
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
                                     $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -145,8 +155,9 @@ class GameResultController extends Controller
                                 }
                             }
                             elseif($mode->id == 6 && $row->game_number == $request->jodi){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -154,16 +165,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
-                                    'event_type'    => '3', // 3 for game result update notification
+                                    'event_type'    => '3',
+                                    'result_date' => $result_date,
+                                    'created_by' => Auth::id()
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
                                     $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -178,13 +190,24 @@ class GameResultController extends Controller
                         }
                     }
                 }
-
-                $notificationData = [
-                    'title'         => 'matka game result out',
-                    'description'   => 'Matka game Game result updated on date: ' . $result_date->format('d-m-Y'),
+                    
+                $notificationDataOpen = [
+                    'title'         => $game->name,
+                    'description'   => 'Open result is '.$request->open,
                     'event_type'    => '5', // 5 for game result update notification
+                    'result_date' => $result_date,
+                    'created_by'    => Auth::id(),
                 ];
-                $notification = Notification::create($notificationData);
+
+                $notificationDataJodi = [
+                    'title'         => $game->name,
+                    'description'   => 'Jodi result is '.$request->jodi,
+                    'event_type'    => '5', // 5 for game result update notification
+                    'result_date' => $result_date,
+                    'created_by'    => Auth::id(),
+                ];
+                Notification::create($notificationDataOpen);
+                Notification::create($notificationDataJodi);
 
                 $request->merge(['created_by' => Auth::id()]);
                 $data = $request->all();
@@ -202,8 +225,9 @@ class GameResultController extends Controller
                     foreach($bids as $bid){
                         foreach($bid->bidchild as $row){
                             if($mode->id == 1 && $row->game_number == $rightSide){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -211,16 +235,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
                                     'event_type'    => '3', // 3 for game result update notification
+                                    'result_date' => $result_date,
+                                    'created_by'    => Auth::id(),
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
                                     $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -229,8 +254,9 @@ class GameResultController extends Controller
                                 }
                             }
                             elseif($mode->id == 2 && $row->game_number == $request->jodi){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -238,16 +264,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
                                     'event_type'    => '3', // 3 for game result update notification
+                                    'result_date' => $result_date,
+                                    'created_by'    => Auth::id(),
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
                                     $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -256,8 +283,9 @@ class GameResultController extends Controller
                                 }
                             }
                             elseif($mode->id == 3 && $row->game_number == $request->close){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -265,16 +293,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
                                     'event_type'    => '3', // 3 for game result update notification
+                                    'result_date' => $result_date,
+                                    'created_by'    => Auth::id(),
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
                                     $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -283,8 +312,9 @@ class GameResultController extends Controller
                                 }
                             }
                             elseif($mode->id == 4 && $row->game_number == $request->close){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -292,16 +322,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
                                     'event_type'    => '3', // 3 for game result update notification
+                                    'result_date' => $result_date,
+                                    'created_by'    => Auth::id(),
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
                                     $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -310,8 +341,9 @@ class GameResultController extends Controller
                                 }
                             }
                             elseif($mode->id == 5 && $row->game_number == $request->close){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -319,16 +351,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
                                     'event_type'    => '3', // 3 for game result update notification
+                                    'result_date' => $result_date,
+                                    'created_by'    => Auth::id(),
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
                                     $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -337,8 +370,9 @@ class GameResultController extends Controller
                                 }
                             }
                             elseif($mode->id == 6 && $row->game_number == $rightSide){
-                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id])->get()->first();
                                 $bidchild = BidChild::find($row->id);
+                                $user = User::find($bidchild->created_by);
+                                $game_rate = GameRate::where(['category'=>'matka', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                                 $win_amount = $game_rate->rate * $bidchild->points;
                                 $data = [
                                     'user_id'=>$bidchild->created_by,
@@ -346,16 +380,17 @@ class GameResultController extends Controller
                                     'win_amount'=>$win_amount,
                                 ];
                                 $notificationData = [
-                                    'title'         => 'matka game result Updated',
+                                    'title'         => $game->name.' ('.$mode->name.')',
                                     'description'   => 'Congratulation you are win rupees '.$win_amount,
                                     'user_id'       => $bidchild->created_by,
                                     'winer_user_id' => $bidchild->created_by,
                                     'event_type'    => '3', // 3 for game result update notification
+                                    'result_date' => $result_date,
+                                    'created_by'    => Auth::id(),
                                 ];
                                 $winner = Winner::create($data);
                                 if($winner){
                                     $notification = Notification::create($notificationData);
-                                    $user = User::find($bidchild->created_by);
                                     $wining = ($user->winning_wallet + $win_amount);
                                     $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                     if($user){
@@ -370,13 +405,24 @@ class GameResultController extends Controller
                         }
                     }
                 }
-                // dd($game_mode);
-                $notificationData = [
-                    'title'         => 'matka game result out',
-                    'description'   => 'Matka game Game result updated on date: ' . $result_date->format('d-m-Y'),
+
+                $notificationDataClose = [
+                    'title'         => $game->name,
+                    'description'   => 'Close result is '.$request->close,
                     'event_type'    => '5', // 5 for game result update notification
+                    'result_date' => $result_date,
+                    'created_by'    => Auth::id(),
                 ];
-                $notification = Notification::create($notificationData);
+
+                $notificationDataJodi = [
+                    'title'         => $game->name,
+                    'description'   => 'Jodi result is '.$request->jodi,
+                    'event_type'    => '5', // 5 for game result update notification
+                    'result_date' => $result_date,
+                    'created_by'    => Auth::id(),
+                ];
+                Notification::create($notificationDataClose);
+                Notification::create($notificationDataJodi);            
                 
                 $request->merge(['updated_by' => Auth::id()]);
                 $data = $request->all();
@@ -439,17 +485,20 @@ class GameResultController extends Controller
                 'open' => ['required', 'digits:2'],
             ]);
             
+            $result = $request->open;
+            $game = GameMaster::find($request->game_id);
             $result_date = Carbon::parse($request->result_date);
             $game_mode = GameMode::where('category', 'satta')->orderBy('ordering', 'ASC')->get();
-            $andarHaruf = substr($request->open, 0, 1);
-            $baharHaruf = substr($request->open, 1);
+            $andarHaruf = substr($result, 0, 1);
+            $baharHaruf = substr($result, 1);
             foreach($game_mode as $mode){
                 $bids = Bids::where(['category'=>'satta', 'game_id'=>$request->game_id, 'game_mode'=>$mode->id, 'game_type'=>'open'])->whereDate('created_at', $result_date)->get();
                 foreach($bids as $bid){
                     foreach($bid->bidchild as $row){
-                        if($mode->id == 16 && $row->game_number == $request->open){
-                            $game_rate = GameRate::where(['category'=>'satta', 'gamemode'=>$mode->id])->get()->first();
+                        if($mode->id == 16 && $row->game_number == $result){
                             $bidchild = BidChild::find($row->id);
+                            $user = User::find($bidchild->created_by);
+                            $game_rate = GameRate::where(['category'=>'satta', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                             $win_amount = $game_rate->rate * $bidchild->points;
                             $data = [
                                 'user_id'=>$bidchild->created_by,
@@ -457,16 +506,17 @@ class GameResultController extends Controller
                                 'win_amount'=>$win_amount,
                             ];
                             $notificationData = [
-                                'title'         => 'satta game result Updated',
+                                'title'         => $game->name.' ('.$mode->name.')',
                                 'description'   => 'Congratulation you are win rupees '.$win_amount,
                                 'user_id'       => $bidchild->created_by,
                                 'winer_user_id' => $bidchild->created_by,
-                                'event_type'    => '4', // 3 for game result update notification
+                                'event_type'    => '4',
+                                'result_date' => $result_date,
+                                'created_by'    => Auth::id(),
                             ];
                             $winner = Winner::create($data);
                             if($winner){
                                 $notification = Notification::create($notificationData);
-                                $user = User::find($bidchild->created_by);
                                 $wining = ($user->winning_wallet + $win_amount);
                                 $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                 if($user){
@@ -475,8 +525,9 @@ class GameResultController extends Controller
                             }
                         }
                         elseif($mode->id == 17 && $row->game_number == $baharHaruf){
-                            $game_rate = GameRate::where(['category'=>'satta', 'gamemode'=>$mode->id])->get()->first();
                             $bidchild = BidChild::find($row->id);
+                            $user = User::find($bidchild->created_by);
+                            $game_rate = GameRate::where(['category'=>'satta', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                             $win_amount = $game_rate->rate * $bidchild->points;
                             $data = [
                                 'user_id'=>$bidchild->created_by,
@@ -484,16 +535,17 @@ class GameResultController extends Controller
                                 'win_amount'=>$win_amount,
                             ];
                             $notificationData = [
-                                'title'         => 'satta game result Updated',
+                                'title'         => $game->name.' ('.$mode->name.')',
                                 'description'   => 'Congratulation you are win rupees '.$win_amount,
                                 'user_id'       => $bidchild->created_by,
                                 'winer_user_id' => $bidchild->created_by,
-                                'event_type'    => '4', // 3 for game result update notification
+                                'event_type'    => '4',
+                                'result_date' => $result_date,
+                                'created_by'    => Auth::id(),
                             ];
                             $winner = Winner::create($data);
                             if($winner){
                                 $notification = Notification::create($notificationData);
-                                $user = User::find($bidchild->created_by);
                                 $wining = ($user->winning_wallet + $win_amount);
                                 $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                 if($user){
@@ -502,8 +554,9 @@ class GameResultController extends Controller
                             }
                         }
                         elseif($mode->id == 18 && $row->game_number == $andarHaruf){
-                            $game_rate = GameRate::where(['category'=>'satta', 'gamemode'=>$mode->id])->get()->first();
                             $bidchild = BidChild::find($row->id);
+                            $user = User::find($bidchild->created_by);
+                            $game_rate = GameRate::where(['category'=>'satta', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                             $win_amount = $game_rate->rate * $bidchild->points;
                             $data = [
                                 'user_id'=>$bidchild->created_by,
@@ -511,16 +564,17 @@ class GameResultController extends Controller
                                 'win_amount'=>$win_amount,
                             ];
                             $notificationData = [
-                                'title'         => 'satta game result Updated',
+                                'title'         => $game->name.' ('.$mode->name.')',
                                 'description'   => 'Congratulation you are win rupees '.$win_amount,
                                 'user_id'       => $bidchild->created_by,
                                 'winer_user_id' => $bidchild->created_by,
-                                'event_type'    => '4', // 3 for game result update notification
+                                'event_type'    => '4',
+                                'result_date' => $result_date,
+                                'created_by'    => Auth::id(),
                             ];
                             $winner = Winner::create($data);
                             if($winner){
                                 $notification = Notification::create($notificationData);
-                                $user = User::find($bidchild->created_by);
                                 $wining = ($user->winning_wallet + $win_amount);
                                 $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                 if($user){
@@ -528,9 +582,10 @@ class GameResultController extends Controller
                                 }
                             }
                         }
-                        elseif($mode->id == 19 && $row->game_number == $request->open){
-                            $game_rate = GameRate::where(['category'=>'satta', 'gamemode'=>$mode->id])->get()->first();
+                        elseif($mode->id == 19 && $row->game_number == $result){
                             $bidchild = BidChild::find($row->id);
+                            $user = User::find($bidchild->created_by);
+                            $game_rate = GameRate::where(['category'=>'satta', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                             $win_amount = $game_rate->rate * $bidchild->points;
                             $data = [
                                 'user_id'=>$bidchild->created_by,
@@ -538,16 +593,17 @@ class GameResultController extends Controller
                                 'win_amount'=>$win_amount,
                             ];
                             $notificationData = [
-                                'title'         => 'satta game result Updated',
+                                'title'         => $game->name.' ('.$mode->name.')',
                                 'description'   => 'Congratulation you are win rupees '.$win_amount,
                                 'user_id'       => $bidchild->created_by,
                                 'winer_user_id' => $bidchild->created_by,
-                                'event_type'    => '4', // 3 for game result update notification
+                                'event_type'    => '4',
+                                'result_date' => $result_date,
+                                'created_by'    => Auth::id(),
                             ];
                             $winner = Winner::create($data);
                             if($winner){
                                 $notification = Notification::create($notificationData);
-                                $user = User::find($bidchild->created_by);
                                 $wining = ($user->winning_wallet + $win_amount);
                                 $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                 if($user){
@@ -555,9 +611,10 @@ class GameResultController extends Controller
                                 }
                             }
                         }
-                        elseif($mode->id == 20 && $row->game_number == $request->open){
-                            $game_rate = GameRate::where(['category'=>'satta', 'gamemode'=>$mode->id])->get()->first();
+                        elseif($mode->id == 20 && $row->game_number == $result){
                             $bidchild = BidChild::find($row->id);
+                            $user = User::find($bidchild->created_by);
+                            $game_rate = GameRate::where(['category'=>'satta', 'gamemode'=>$mode->id, 'created_by'=>$user->created_by])->get()->first();
                             $win_amount = $game_rate->rate * $bidchild->points;
                             $data = [
                                 'user_id'=>$bidchild->created_by,
@@ -565,16 +622,17 @@ class GameResultController extends Controller
                                 'win_amount'=>$win_amount,
                             ];
                             $notificationData = [
-                                'title'         => 'satta game result Updated',
+                                'title'         => $game->name.' ('.$mode->name.')',
                                 'description'   => 'Congratulation you are win rupees '.$win_amount,
                                 'user_id'       => $bidchild->created_by,
                                 'winer_user_id' => $bidchild->created_by,
-                                'event_type'    => '4', // 3 for game result update notification
+                                'event_type'    => '4',
+                                'result_date' => $result_date,
+                                'created_by'    => Auth::id(),
                             ];
                             $winner = Winner::create($data);
                             if($winner){
                                 $notification = Notification::create($notificationData);
-                                $user = User::find($bidchild->created_by);
                                 $wining = ($user->winning_wallet + $win_amount);
                                 $user->update(['winning_wallet'=>$wining, 'updated_by'=>Auth::id()]);
                                 if($user){
@@ -591,9 +649,11 @@ class GameResultController extends Controller
             }
 
             $notificationData = [
-                'title'         => 'Satta game result out',
-                'description'   => 'Satta game Game result updated on date: ' . $result_date->format('d-m-Y'),
-                'event_type'    => '5', // 5 for game result update notification
+                'title'         => $game->name,
+                'description'   => 'Result is: ' . $result,
+                'event_type'    => '6',
+                'result_date' => $result_date,
+                'created_by'    => Auth::id(),
             ];
             $notification = Notification::create($notificationData);
 

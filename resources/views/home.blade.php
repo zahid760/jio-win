@@ -20,6 +20,7 @@
     <link href="{{ secure_asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ secure_asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ secure_asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script>
         var baseUrl = "{{ config('app.url') }}";
     </script>
@@ -59,5 +60,6 @@
 
     <script src="{{ secure_asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ secure_asset('assets/js/pages/sweet-alert.init.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </body>
 </html>

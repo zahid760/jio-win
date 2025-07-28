@@ -21,6 +21,7 @@
                                     <th>Date</th>
                                     <th>Amount</th>
                                     <th>Name</th>
+                                    <th>Mobile</th>
                                     <th>A/c No.</th>
                                     <th>IFSC</th>
                                     <th>Bank</th>
@@ -33,9 +34,10 @@
                             <tbody>
                                 @foreach($data as $row)
                                     <tr id="listrow{{$row->id}}">
-                                        <td>{{ $row->created_at->format('d-m-Y') }}</td>
+                                        <td>{{ $row->created_at->format('d-m-Y h:i A') }}</td>
                                         <td>{{ $row->amount }}</td>
                                         <td>{{ $row->bankDetails->name ?? '' }}</td>
+                                        <td>{{ $row->user->mobile ?? '' }}</td>
                                         <td>{{ $row->bankDetails->account_number ?? '' }}</td>
                                         <td>{{ $row->bankDetails->ifsc ?? '' }}</td>
                                         <td>{{ $row->bankDetails->bank_name ?? '' }}</td>

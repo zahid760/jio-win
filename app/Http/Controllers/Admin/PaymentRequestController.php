@@ -16,7 +16,7 @@ class PaymentRequestController extends Controller
     {
         $data = PaymentRequest::whereHas('user', function ($query) {
             $query->where('created_by', Auth::id());
-        })->orderBy('id', 'DESC')->get();
+        })->where('status', '!=', 3)->orderBy('id', 'DESC')->get();
         
         return view('admin.payment_request_list', compact('data'));
     }
@@ -40,19 +40,31 @@ class PaymentRequestController extends Controller
                 $bonus_amt = 0;
                 if($checkPaymentRequests == 1)
                 {
-                    $bonus_amt = $bonus->amount;
+                    $bonus_amt += $bonus->amount;
                 }
                 $percent = $bonus->percent;
-                $total_percent = ($amount * $percent) / 100;
-                $referUser = User::find($user->created_by);
-                $referUser_bonus_amt = ($referUser->bonus_wallet + $total_percent);
+                $total_percent_amount = ($amount * $percent) / 100;
 
-                $deposite = ($user->deposite_wallet + $amount);
-                $wallet = ($user->wallet + $amount);
-                $bonus_amt = ($user->bonus_wallet + $bonus_amt);
+                $total_bonus_amt = ($bonus_amt + $total_percent_amount);
+                $total_bonus = ($user->bonus_wallet + $total_bonus_amt);
+                $total_deposite = ($user->deposite_wallet + $amount);
+                $user->update(['deposite_wallet'=> $total_deposite, 'bonus_wallet'=> $total_bonus, 'updated_by'=>Auth::id()]);
 
+                $referUser = User::where('referral_code', $user->referred_by)->get()->first();
+                $referUser_bonus_amt = ($referUser->bonus_wallet + $total_percent_amount);
                 $referUser->update(['bonus_wallet'=> $referUser_bonus_amt, 'updated_by'=>Auth::id()]);
-                $user->update(['wallet'=>$wallet, 'deposite_wallet'=>$deposite, 'bonus_wallet'=> $bonus_amt, 'updated_by'=>Auth::id()]);
+                
+                PaymentRequest::create([
+                    'amount' => $total_bonus_amt,
+                    'status' => 3,
+                    'created_by' => $user->id,
+                ]);
+
+                PaymentRequest::create([
+                    'amount' => $total_percent_amount,
+                    'status' => 3,
+                    'created_by' => $referUser->id,
+                ]);
             }
             
             $data = [

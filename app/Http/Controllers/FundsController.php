@@ -48,7 +48,7 @@ class FundsController extends Controller
         $created_by  = Auth::user()->created_by;
         $account_details = AccountDetail::where('created_by', $created_by)->get()->first();
         $wallet = number_format($this->wallet, 2);
-        $support = Support::where('created_by', $created_by);
+        $support = Support::where('created_by', $created_by)->get()->first();
         return view('customer.add_cash', compact('account_details', 'wallet', 'support'));
     }
 
@@ -75,24 +75,27 @@ class FundsController extends Controller
             }
             
             $request->merge(['created_by' => Auth::id()]);
-            $notificationData = [
-                'title'         => 'Payment Request',
-                'description'   => 'Payment request created by '.Auth::user()->name,
-                'user_id'       => Auth::id(),
-                'winer_user_id' => Auth::id(),
-                'event_type'    => '1', // 1 for user Payment Request notification
-            ];
-            $data = $request->all();
-            $notification = Notification::create($notificationData);
+            
+            $data = $request->all();            
             $payment_request = PaymentRequest::create($data);
             
-            if($payment_request && $notification){
+            if($payment_request){
+                $notificationData = [
+                    'title'         => 'Payment Request',
+                    'description'   => 'Amount is '.$request->amount,
+                    'user_id'       => Auth::id(),
+                    'winer_user_id' => Auth::id(),
+                    'event_type'    => '1', // 1 for user Payment Request notification
+                ];
+                $notification = Notification::create($notificationData);
                 return response()->json(['status'=>'success',  'message' => 'Thank you for deposit your amount will credit within 45 minutes.'], 200);
             }
-            
-        }catch (ValidationException $e) {
-            $failures = $e->failures();
-            return response()->json(['message'=>$failures]);
+            return response()->json(['status' => 'error', 'message' => 'Failed to create payment request.'], 500);            
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $e->errors()
+            ], 422);
         }
     }
 

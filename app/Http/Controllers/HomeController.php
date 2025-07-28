@@ -9,6 +9,7 @@ use App\Models\GameMode;
 use App\Models\Bids;
 use App\Models\BidChild;
 use App\Models\User;
+use App\Models\Support;
 use Auth;
 
 class HomeController extends Controller
@@ -42,7 +43,8 @@ class HomeController extends Controller
             $matka_games = GameMaster::where('category', 'matka')->where('created_by', $creator->id)->orderBy('open_time', 'ASC')->get();
         }
         $wallet = number_format($this->wallet, 2);
-        return view('customer.home', compact('matka_games', 'wallet'));
+        $support = Support::where('created_by', Auth::user()->created_by)->get()->first();
+        return view('customer.home', compact('matka_games', 'wallet', 'support'));
     }
 
     public function game_mode($id)
