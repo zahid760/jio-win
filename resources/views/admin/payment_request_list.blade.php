@@ -20,6 +20,7 @@
                                 <tr>
                                     <th>Date</th>
                                     <th>Name</th>
+                                    <th>Mobile</th>
                                     <th>Transaction Id</th>
                                     <th>Amount</th>
                                     <th>Comment</th>
@@ -31,8 +32,9 @@
                             <tbody>
                                 @foreach($data as $row)
                                     <tr id="listrow{{$row->id}}">
-                                        <td>{{ $row->created_at->format('d-m-Y') }}</td>
+                                        <td>{{ $row->created_at->format('d-m-Y h:i A') }}</td>
                                         <td>{{ $row->user->name }}</td>
+                                        <td>{{ $row->user->mobile }}</td>
                                         <td>{{ $row->transaction_id }}</td>
                                         <td>{{ $row->amount }}</td>
                                         <td>{{ $row->comment }}</td>

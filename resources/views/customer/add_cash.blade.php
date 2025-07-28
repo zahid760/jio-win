@@ -119,7 +119,7 @@
                                 <button type="button" onclick="setAmount(50000)" class="btn btn-danger btn-sm">50000</button>
                             </div>
                             <div class="col-12">
-                                <input type="text" class="form-control" name="comment" placeholder="Comment If Any" required="">
+                                <input type="text" class="form-control" name="comment" placeholder="Comment If Any">
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-danger btnsave">Submit Request</button>

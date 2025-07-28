@@ -31,6 +31,7 @@
                         <table class="table datatable" id="datatable_1">
                             <thead class="table-light">
                                 <tr>
+                                    <th>Date</th>
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Action</th>
@@ -39,6 +40,7 @@
                             <tbody>
                                 @foreach($data as $row)
                                     <tr id="listrow{{$row->id}}">
+                                        <td>{{ $row->created_at->format('d-m-Y') }}</td>
                                         <td>{{ $row->title }}</td>
                                         <td>{{ $row->description }}</td>
                                         <td>

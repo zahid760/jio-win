@@ -14,7 +14,7 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $data = Notification::get();
+        $data = Notification::orderBy('id', 'desc')->get();
         return view('admin.notification.list', compact('data'));
     }
 
