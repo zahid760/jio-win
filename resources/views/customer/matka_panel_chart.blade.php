@@ -74,14 +74,18 @@
                             </div>
                         </div>
 
-                        <div id="matka_gameChart_list" class="card-body pt-0">
-                            {{--  --}}
+                        <!-- Chart Output Area -->
+                        <div class="card-body pt-0">
+                            <div id="matka_gameChart_list" class="table-responsive">
+                                {{-- Your chart content goes here, such as tables or divs --}}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
 @include('customer.includes.footer')
 
 <script>
