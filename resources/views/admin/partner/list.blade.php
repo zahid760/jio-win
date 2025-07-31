@@ -55,6 +55,7 @@
                                         <td>{{ $row->getPermissionNames()->implode(', ') }}</td>
                                         <td>{{ $row->createdBy->name ?? '' }}</td>
                                         <td>
+                                            <a href="{{ route('partner.show', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Users"><i class="far fa-eye text-secondary fs-18"></i></a>
                                             <a href="{{ route('partner.edit', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="las la-pen text-secondary fs-18"></i></a>
                                             <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete" onclick="delete_func('{{ route('partner.destroy', $row->id) }}')"><i class="las la-trash-alt text-secondary fs-18"></i></a>
                                         </td>
