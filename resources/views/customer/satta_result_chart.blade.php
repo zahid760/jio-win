@@ -74,8 +74,10 @@
                             </div>
                         </div>
 
-                        <div id="matka_gameChart_list" class="card-body pt-0">
-                            {{--  --}}
+                        <div class="card-body pt-0">
+                            <div id="matka_gameChart_list" class="table-responsive">
+                                {{--  --}}
+                            </div>
                         </div>
                     </div>
                 </div>
