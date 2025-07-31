@@ -62,7 +62,57 @@
                                             @else
                                                 {{ $row->result->open ?? '***' }}-{{ strlen($row->result->jodi ?? '') === 1 ? $row->result->jodi . '*' : ($row->result->jodi ?? '**') }}-{{ $row->result->close ?? '***' }}
                                             @endif
-                                            @if(Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('PARTNER') && $row->created_by == Auth::id())
+                                            @if(auth()->user()->hasRole('PARTNER') && $row->created_by == Auth::id())
+                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#addResult{{$row->id}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add Result"><i class="fas fa-plus-circle"></i></a>
+                                                <div class="modal fade" id="addResult{{$row->id}}" tabindex="-1" aria-labelledby="addResultLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="addResultLabel">{{ $row->name }} Result</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <form action="{{ route('game_result.store') }}" method="post" class="game-result-form">
+                                                                @csrf
+                                                                @method('POST')
+                                                                <div class="modal-body">                                                            
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="mb-2">
+                                                                                <label>Date</label> 
+                                                                                <input type="date" name="result_date" class="form-control result_date" data-gameid="{{ $row->id }}" value="{{ date('Y-m-d') }}" required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div class="mb-2">
+                                                                                <label>Open</label> 
+                                                                                <input type="number" name="open" class="form-control" value="{{ $row->result->open ?? '' }}" max="999" maxlength="3" oninput="validateDigitsOpen(this)" {{ !empty($row->result->open) ? 'readonly' : '' }} required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div class="mb-2">
+                                                                                <label>Jodi</label> 
+                                                                                <input type="text" name="jodi" class="form-control jodi" value="{{ $row->result->jodi ?? '' }}" readonly required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div class="mb-2">
+                                                                                <label>Close</label> 
+                                                                                <input type="number" name="close" class="form-control" value="{{ $row->result->close ?? '' }}" max="999" maxlength="3" oninput="validateDigitsClose(this)" {{ !empty($row->result->open) ? '' : 'readonly' }}>
+                                                                            </div>
+                                                                        </div>
+                                                                        <input type="hidden" name="game_id" value="{{ $row->id }}">
+                                                                        <input type="hidden" name="result_id" value="{{ $row->result->id ?? '' }}">
+                                                                    </div>           
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" class="btn btn-primary w-100 btnsave">Add Result</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if(auth()->user()->hasRole('ADMIN'))
                                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#addResult{{$row->id}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add Result"><i class="fas fa-plus-circle"></i></a>
                                                 <div class="modal fade" id="addResult{{$row->id}}" tabindex="-1" aria-labelledby="addResultLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
@@ -117,9 +167,15 @@
                                         <td>{{ $row->spl == 1 ? 'Special' : '' }}</td>
                                         <td>{{ $row->user->name }}</td>
                                         <td>
-                                            @if(Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('PARTNER') && $row->created_by == Auth::id())
-                                                <a href="{{ route('matka.game.panel.chart', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Panel Chart"><i class="las la-chart-line text-secondary fs-18"></i></a>
-                                                <a href="{{ route('matka.game.jodi.chart', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Jodi Chart"><i class="las la-chart-bar text-secondary fs-18"></i></a>
+                                            <a href="{{ route('matka.game.panel.chart', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Panel Chart"><i class="las la-chart-line text-secondary fs-18"></i></a>
+                                            <a href="{{ route('matka.game.jodi.chart', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Jodi Chart"><i class="las la-chart-bar text-secondary fs-18"></i></a>
+
+                                            @if(auth()->user()->hasRole('PARTNER') && $row->created_by == Auth::id())
+                                                <a href="{{ route('matka.game.bid', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Bid History"><i class="las la-gavel text-secondary fs-18"></i></a>
+                                                <a href="{{ route('matka_game.edit', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="las la-pen text-secondary fs-18"></i></a>
+                                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete" onclick="delete_func('{{ route('matka_game.destroy', $row->id) }}')"><i class="las la-trash-alt text-secondary fs-18"></i></a>
+                                            @endif
+                                            @if(auth()->user()->hasRole('ADMIN'))
                                                 <a href="{{ route('matka.game.bid', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Bid History"><i class="las la-gavel text-secondary fs-18"></i></a>
                                                 <a href="{{ route('matka_game.edit', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="las la-pen text-secondary fs-18"></i></a>
                                                 <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete" onclick="delete_func('{{ route('matka_game.destroy', $row->id) }}')"><i class="las la-trash-alt text-secondary fs-18"></i></a>

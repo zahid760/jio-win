@@ -88,8 +88,10 @@
                                         <td>{{ $row->createdBy->name ?? '' }}</td>
                                         <td>
                                             <a href="{{ route('user.history', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Bid History"><i class="las la-gavel text-secondary fs-18"></i></a>
-                                            <a href="{{ route('user.edit', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="las la-pen text-secondary fs-18"></i></a>
-                                            <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete" onclick="delete_func('{{ route('user.destroy', $row->id) }}')"><i class="las la-trash-alt text-secondary fs-18"></i></a>
+                                            @role('ADMIN')
+                                                <a href="{{ route('user.edit', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="las la-pen text-secondary fs-18"></i></a>
+                                                <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete" onclick="delete_func('{{ route('user.destroy', $row->id) }}')"><i class="las la-trash-alt text-secondary fs-18"></i></a>
+                                            @endrole
                                         </td>
                                     </tr>
                                 @endforeach

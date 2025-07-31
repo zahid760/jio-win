@@ -25,6 +25,7 @@ use App\Http\Controllers\GetSupportController;
 use App\Http\Controllers\GameChartController;
 use App\Http\Controllers\FrontNotificationController;
 use App\Http\Controllers\ShareController;
+use App\Http\Controllers\Admin\DashboardController;
 
 use Illuminate\Support\Facades\Route;
 // use Spatie\Permission\Middlewares\RoleMiddleware;
@@ -124,10 +125,11 @@ Route::middleware(['auth', 'verified', 'role:CUSTOMER'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'role:ADMIN|PARTNER'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('admin.dashboard');
+    // })->name('dashboard');
 
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('createpermissions', [PermissionController::class, 'createpermissions'])->name('createpermissions');
 
     Route::resource('matka_game', MatkaController::class);

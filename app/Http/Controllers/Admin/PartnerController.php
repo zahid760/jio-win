@@ -93,7 +93,9 @@ class PartnerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // dd($id);
+        $data = User::role('CUSTOMER')->where('created_by', $id)->orderBy('id', 'DESC')->get();
+        return view('admin.partner.view_user', compact('data'));
     }
 
     /**
