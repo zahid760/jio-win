@@ -10,7 +10,7 @@
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="#">Aam Play</a>
                         </li><!--end nav-item-->
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active">Dashboard 5555</li>
                     </ol>
                 </div>                            
             </div><!--end page-title-box-->
@@ -111,6 +111,18 @@
                     </div>
                     <!--end card-->
                 </div><!--end col-->        
+
+                <div class="col-md-6 col-lg-12">
+                    <div class="card">
+                        <div class="card-body p-1">
+                            <h5 class="fw-bold m-2">Share your referral link and earn rewards!</h5>
+                            <div class="input-group mb-1">
+                                <input type="text" class="form-control" id="shareId" value="{{ route('register') }}?ref={{ $referCode }}" aria-label="shareId" aria-describedby="shareId" readonly>
+                                <button class="btn btn-secondary " type="button" id="shareId" data-clipboard-action="copy" data-clipboard-target="#shareId"><i class="far fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!--end row-->
         </div><!--end col-->
@@ -124,4 +136,6 @@
     <!-- <script src="../../../apexcharts.com/samples/assets/stock-prices.js"></script> -->
     <script src="{{ secure_asset('assets/js/pages/index.init.js') }}"></script>
     <script src="{{ secure_asset('assets/js/DynamicSelect.js') }}"></script>
+    <script src="{{ secure_asset('assets/libs/clipboard/clipboard.min.js') }}"></script>
+    <script src="{{ secure_asset('assets/js/pages/clipboard.init.js') }}"></script>
 @endsection
