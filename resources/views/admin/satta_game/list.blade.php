@@ -60,7 +60,45 @@
                                             @else
                                                 {{ $row->result->open ?? '**' }}
                                             @endif
-                                            @if(Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('PARTNER') && $row->created_by == Auth::id())
+                                            @if(auth()->user()->hasRole('PARTNER') && $row->created_by == Auth::id())
+                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#addResult{{$row->id}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add Result"><i class="fas fa-plus-circle"></i></a>
+                                                <div class="modal fade" id="addResult{{$row->id}}" tabindex="-1" aria-labelledby="addResultLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="addResultLabel">{{ $row->name }} Result</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <form action="{{ route('satta.game.result.store') }}" method="post" class="game-result-form">
+                                                                @csrf
+                                                                @method('POST')
+                                                                <div class="modal-body">                                                            
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="mb-2">
+                                                                                <label>Date</label> 
+                                                                                <input type="date" name="result_date" class="form-control result_date" data-gameid="{{ $row->id }}" value="{{ date('Y-m-d') }}" required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <div class="mb-2">
+                                                                                <label>Open</label> 
+                                                                                <input type="number" name="open" class="form-control" value="{{ $row->result->open ?? '' }}" required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <input type="hidden" name="game_id" value="{{ $row->id }}">
+                                                                        <input type="hidden" name="result_id" value="{{ $row->result->id ?? '' }}">
+                                                                    </div>           
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" class="btn btn-primary w-100 btnsave">Add Result</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if(auth()->user()->hasRole('ADMIN'))
                                                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#addResult{{$row->id}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add Result"><i class="fas fa-plus-circle"></i></a>
                                                 <div class="modal fade" id="addResult{{$row->id}}" tabindex="-1" aria-labelledby="addResultLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
@@ -103,8 +141,9 @@
                                         <td>{{ $row->spl == 1 ? 'Special' : '' }}</td>
                                         <td>{{ $row->user->name }}</td>
                                         <td>
+                                            <a href="{{ route('satta.game.result.chart', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Result Chart"><i class="las la-chart-line text-secondary fs-18"></i></a>
+                                            
                                             @if(Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('PARTNER') && $row->created_by == Auth::id())
-                                                <a href="{{ route('satta.game.result.chart', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Result Chart"><i class="las la-chart-line text-secondary fs-18"></i></a>
                                                 <a href="{{ route('satta.game.bid', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Bid History"><i class="las la-gavel text-secondary fs-18"></i></a>
                                                 <a href="{{ route('satta_game.edit', $row->id) }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit"><i class="las la-pen text-secondary fs-18"></i></a>
                                                 <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete" onclick="delete_func('{{ route('satta_game.destroy', $row->id) }}')"><i class="las la-trash-alt text-secondary fs-18"></i></a>
