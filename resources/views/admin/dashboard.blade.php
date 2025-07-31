@@ -10,7 +10,7 @@
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="#">Aam Play</a>
                         </li><!--end nav-item-->
-                        <li class="breadcrumb-item active">Dashboard 5555</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div>                            
             </div><!--end page-title-box-->
