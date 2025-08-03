@@ -19,6 +19,22 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body p-1">
+                    <h5 class="border-bottom pb-1 mb-1">Bank Details</h5>
+                    <p>Account Holder: <span class="text-muted">{{$bank_detail->name ?? ''}}</span></p>
+                    <p>A/c No.: <span class="text-muted">{{$bank_detail->account_number ?? ''}}</span></p>
+                    <p>IFSC Code: <span class="text-muted">{{$bank_detail->ifsc ?? ''}}</span></p>
+                    <p>Bank Name: <span class="text-muted">{{$bank_detail->bank_name ?? ''}}</span></p>
+                    <p>UPI ID: <span class="text-muted">{{$bank_detail->upi_id ?? ''}}</span></p>
+                    @if(isset($bank_detail->account_number))
+                        <a href="{{route('bank.detail')}}" class="btn btn-danger">Update Bank Details</a>
+                    @else
+                        <a href="{{route('bank.detail')}}" class="btn btn-danger">Add Bank Details</a>
+                    @endif
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body p-1">
                     <form action="{{route('withdraw.fund.store')}}" method="post" id="payment-form">
                         @csrf
                         @method('POST')

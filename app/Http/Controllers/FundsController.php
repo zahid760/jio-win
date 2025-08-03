@@ -151,7 +151,8 @@ class FundsController extends Controller
 
     public function withdraw_fund()
     {
-        return view('customer.withdraw_fund');
+        $bank_detail = UserBankDetails::where('created_by', Auth::user()->id)->get()->first();
+        return view('customer.withdraw_fund', compact('bank_detail'));
     }
 
     public function withdraw_fund_store(Request $request)

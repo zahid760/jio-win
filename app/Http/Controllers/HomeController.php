@@ -10,6 +10,7 @@ use App\Models\Bids;
 use App\Models\BidChild;
 use App\Models\User;
 use App\Models\Support;
+use App\Models\Passbook;
 use Auth;
 
 class HomeController extends Controller
@@ -177,6 +178,8 @@ class HomeController extends Controller
                                     'created_by' => $userid,
                                 ];
                                 BidChild::create($data);
+                                $data['user_id'] = $userid;
+                                Passbook::create($data);
                                 $wallet -= $value;
                             }
                         }
@@ -330,6 +333,8 @@ class HomeController extends Controller
                                     'created_by' => $userid,
                                 ];
                                 BidChild::create($data);
+                                $data['user_id'] = $userid;
+                                Passbook::create($data);
                                 $wallet -= $value;
                             }
                         }
@@ -479,6 +484,8 @@ class HomeController extends Controller
                                     'created_by' => $userid,
                                 ];
                                 BidChild::create($data);
+                                $data['user_id'] = $userid;
+                                Passbook::create($data);
                                 $wallet -= $value;
                             }
                         }
@@ -628,6 +635,8 @@ class HomeController extends Controller
                                     'created_by' => $userid,
                                 ];
                                 BidChild::create($data);
+                                $data['user_id'] = $userid;
+                                Passbook::create($data);
                                 $wallet -= $value;
                             }
                         }
@@ -777,6 +786,8 @@ class HomeController extends Controller
                                     'created_by' => $userid,
                                 ];
                                 BidChild::create($data);
+                                $data['user_id'] = $userid;
+                                Passbook::create($data);
                                 $wallet -= $value;
                             }
                         }
@@ -926,6 +937,8 @@ class HomeController extends Controller
                                     'created_by' => $userid,
                                 ];
                                 BidChild::create($data);
+                                $data['user_id'] = $userid;
+                                Passbook::create($data);
                                 $wallet -= $value;
                             }
                         }
