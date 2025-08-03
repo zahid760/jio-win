@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\GameMaster;
 use App\Models\Bids;
 use App\Models\GameResult;
+use App\Models\Passbook;
 use \Carbon\Carbon;
 use Auth;
 
@@ -55,8 +56,9 @@ class BidHistoryController extends Controller
 
     public function passbook()
     {
-        $bids = Bids::with('game', 'gamemode', 'bidchild')->where('created_by', Auth::user()->id)->orderBy('id', 'DESC')->get();
-        return view('customer.passbook', compact('bids'));
+        // $bids = Bids::with('game', 'gamemode', 'bidchild')->where('created_by', Auth::user()->id)->orderBy('id', 'DESC')->get();
+        $passbook = Passbook::where('user_id', Auth::id())->orderBy('id', 'DESC')->get();
+        return view('customer.passbook', compact('passbook'));
     }
 
     public function game_result()
