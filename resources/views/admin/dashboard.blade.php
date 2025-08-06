@@ -24,13 +24,13 @@
                         <div class="card-body">
                             <div class="row d-flex justify-content-center">
                                 <div class="col-9">
-                                    <p class="text-muted text-uppercase mb-0 fw-normal fs-13">Total Revenue</p>
-                                    <h4 class="mt-1 mb-0 fw-medium">$8365.00</h4>
+                                    <p class="text-muted text-uppercase mb-0 fw-normal fs-13">Total Users</p>
+                                    <h4 class="mt-1 mb-0 fw-medium">{{ $totalUserCount }}</h4>
                                 </div>
                                 <!--end col-->
                                 <div class="col-3 align-self-center">
                                     <div class="d-flex justify-content-center align-items-center thumb-md border-dashed border-primary rounded mx-auto">
-                                        <i class="iconoir-dollar-circle fs-22 align-self-center mb-0 text-primary"></i>
+                                        <i class="fas fa-users fs-22 align-self-center mb-0 text-primary"></i>
                                     </div>
                                 </div>
                                 <!--end col-->
@@ -42,44 +42,47 @@
                     <!--end card-->
                 </div>
                 <!--end col-->
-                <div class="col-md-6 col-lg-3">
-                    <div class="card bg-corner-img">
-                        <div class="card-body">
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-9">
-                                    <p class="text-muted text-uppercase mb-0 fw-normal fs-13">New Order</p>
-                                    <h4 class="mt-1 mb-0 fw-medium">722</h4>
-                                </div>
-                                <!--end col-->
-                                <div class="col-3 align-self-center">
-                                    <div class="d-flex justify-content-center align-items-center thumb-md border-dashed border-info rounded mx-auto">
-                                        <i class="iconoir-cart fs-22 align-self-center mb-0 text-info"></i>
+                @role('ADMIN')
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card bg-corner-img">
+                            <div class="card-body">
+                                <div class="row d-flex justify-content-center">
+                                    <div class="col-9">
+                                        <p class="text-muted text-uppercase mb-0 fw-normal fs-13">Total Partner</p>
+                                        <h4 class="mt-1 mb-0 fw-medium">{{ $totalPartnerCount }}</h4>
                                     </div>
+                                    <!--end col-->
+                                    <div class="col-3 align-self-center">
+                                        <div class="d-flex justify-content-center align-items-center thumb-md border-dashed border-info rounded mx-auto">
+                                            <i class="fas fa-users fs-22 align-self-center mb-0 text-info"></i>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
                                 </div>
-                                <!--end col-->
+                                <!--end row-->
                             </div>
-                            <!--end row-->
+                            <!--end card-body-->
                         </div>
-                        <!--end card-body-->
+                        <!--end card-->
                     </div>
-                    <!--end card-->
-                </div>
+                @endrole
                 <!--end col-->
                 <div class="col-md-6 col-lg-3">
                     <div class="card bg-corner-img">
                         <div class="card-body">
                             <div class="row d-flex justify-content-center">
-                                <div class="col-9">
-                                    <p class="text-muted text-uppercase mb-0 fw-normal fs-13">Sessions</p>
-                                    <h4 class="mt-1 mb-0 fw-medium">181</h4>
-                                </div>
                                 <!--end col-->
                                 <div class="col-3 align-self-center">
-                                    <div class="d-flex justify-content-center align-items-center thumb-md border-dashed border-warning rounded mx-auto">
-                                        <i class="iconoir-percentage-circle fs-22 align-self-center mb-0 text-warning"></i>
+                                    <div class="d-flex justify-content-center align-items-center thumb-md border-dashed border-success rounded mx-auto">
+                                        <i class="fas fa-rupee-sign fs-22 align-self-center mb-0 text-success"></i>
                                     </div>
                                 </div>
                                 <!--end col-->
+
+                                <div class="col-9">
+                                    <p class="text-muted text-uppercase mb-0 fw-normal fs-13">Total deposits</p>
+                                    <h4 class="mt-1 mb-0 fw-medium"> {{ round($totalPaymentAmount) }}</h4>
+                                </div>
                             </div>
                             <!--end row-->
                         </div>
@@ -93,24 +96,33 @@
                     <div class="card bg-corner-img">
                         <div class="card-body">
                             <div class="row d-flex justify-content-center">
-                                <div class="col-9">
-                                    <p class="text-muted text-uppercase mb-0 fw-normal fs-13">Avg. Order value</p>
-                                    <h4 class="mt-1 mb-0 fw-medium">$1025.50</h4>
-                                </div>
                                 <!--end col-->
                                 <div class="col-3 align-self-center">
                                     <div class="d-flex justify-content-center align-items-center thumb-md border-dashed border-danger rounded mx-auto">
-                                        <i class="iconoir-hexagon-dice fs-22 align-self-center mb-0 text-danger"></i>
+                                        <i class="fas fa-rupee-sign fs-22 align-self-center mb-0 text-danger"></i>
                                     </div>
                                 </div>
                                 <!--end col-->
+
+                                <div class="col-9">
+                                    <p class="text-muted text-uppercase mb-0 fw-normal fs-13">Total withdrawal</p>
+                                    <h4 class="mt-1 mb-0 fw-medium"> {{ $totalWithdrawAmount }}</h4>
+                                </div>
                             </div>
                             <!--end row-->
                         </div>
                         <!--end card-body-->
                     </div>
                     <!--end card-->
-                </div><!--end col-->        
+                </div>
+                <!--end col-->
+                
+                <!--end col-->
+
+                @role('PARTNER')
+                    <div class="col-md-6 col-lg-3"></div>
+                @endrole
+                <!--end col-->
 
                 <div class="col-md-6 col-lg-12">
                     <div class="card">
